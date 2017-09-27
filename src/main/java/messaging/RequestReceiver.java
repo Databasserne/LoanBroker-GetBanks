@@ -1,6 +1,7 @@
 package messaging;
 
 import com.rabbitmq.client.*;
+import utils.Global;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;

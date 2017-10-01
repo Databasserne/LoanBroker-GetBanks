@@ -1,6 +1,7 @@
 package main;
 
 import com.rabbitmq.client.ConnectionFactory;
+import controllers.ClientController;
 import messaging.RequestReceiver;
 
 import java.io.IOException;
@@ -15,7 +16,8 @@ public class App {
     }
 
     private void start() throws IOException, TimeoutException {
-        receiver = new RequestReceiver(new ConnectionFactory());
-        receiver.receive();
+        //receiver = new RequestReceiver(new ConnectionFactory());
+        //receiver.receive();
+        new ClientController().requestBanks(50, 50, 50);
     }
 }

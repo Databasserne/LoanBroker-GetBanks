@@ -1,6 +1,11 @@
 package messaging;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.rabbitmq.client.*;
+import controllers.ClientController;
 import utils.Global;
 
 import java.io.IOException;
@@ -8,6 +13,7 @@ import java.util.concurrent.TimeoutException;
 
 public class RequestReceiver {
 
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private ConnectionFactory factory;
     private Connection connection;
     private Channel channel;
@@ -33,6 +39,11 @@ public class RequestReceiver {
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String msg = new String(body, "UTF-8");
                 System.out.println(" [x] Received '" + msg + "'");
+
+                JsonObject json = new JsonParser().parse(msg).getAsJsonObject();
+
+                ClientController client = new ClientController();
+                client.requestBanks(json.get("CreditScore").getAsInt(), json.get("Amount").getAsDouble(), json.get("Months").getAsInt());
             }
         };
         channel.basicConsume(Global.QUEUE_NAME, true, consumer);

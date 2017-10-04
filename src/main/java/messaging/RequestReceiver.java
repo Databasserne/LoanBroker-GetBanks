@@ -43,10 +43,15 @@ public class RequestReceiver {
 
                 JsonObject json = new JsonParser().parse(msg).getAsJsonObject();
 
-                ClientController client = new ClientController();
-                String response = client.requestBanks(json.get("CreditScore").getAsInt(), json.get("Amount").getAsDouble(), json.get("Months").getAsInt());
 
-                channel.basicPublish("", Global.QUEUE_OUT, null, response.getBytes());
+                ClientController client = new ClientController();
+                int creditScore = json.get("CreditScore").getAsInt();
+                double amount = json.get("Amount").getAsDouble();
+                int months = json.get("Months").getAsInt();
+                String response = client.requestBanks(creditScore, amount, months);
+
+                json.add("Banks", new JsonParser().parse(response).getAsJsonArray());
+                channel.basicPublish("", Global.QUEUE_OUT, null, json.toString().getBytes());
             }
         };
         channel.basicConsume(Global.QUEUE_RECEIVING, true, consumer);

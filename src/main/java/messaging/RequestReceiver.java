@@ -30,7 +30,8 @@ public class RequestReceiver {
         connection = factory.newConnection();
         channel = connection.createChannel();
 
-        channel.queueDeclare(Global.QUEUE_NAME, false, false, false, null);
+        channel.queueDeclare(Global.QUEUE_RECEIVING, false, false, false, null);
+        channel.queueDeclare(Global.QUEUE_OUT, false, false, false, null);
         System.out.println(" [*] Waiting for messages.");
 
         Consumer consumer = new DefaultConsumer(channel) {
@@ -43,9 +44,11 @@ public class RequestReceiver {
                 JsonObject json = new JsonParser().parse(msg).getAsJsonObject();
 
                 ClientController client = new ClientController();
-                client.requestBanks(json.get("CreditScore").getAsInt(), json.get("Amount").getAsDouble(), json.get("Months").getAsInt());
+                String response = client.requestBanks(json.get("CreditScore").getAsInt(), json.get("Amount").getAsDouble(), json.get("Months").getAsInt());
+
+                channel.basicPublish("", Global.QUEUE_OUT, null, response.getBytes());
             }
         };
-        channel.basicConsume(Global.QUEUE_NAME, true, consumer);
+        channel.basicConsume(Global.QUEUE_RECEIVING, true, consumer);
     }
 }

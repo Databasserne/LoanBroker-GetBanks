@@ -16,8 +16,7 @@ public class App {
     }
 
     private void start() throws IOException, TimeoutException {
-        //receiver = new RequestReceiver(new ConnectionFactory());
-        //receiver.receive();
-        new ClientController().requestBanks(50, 50, 50);
+        receiver = new RequestReceiver(new ConnectionFactory());
+        receiver.receive();
     }
 }

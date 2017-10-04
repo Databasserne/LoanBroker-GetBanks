@@ -10,7 +10,8 @@ public class ClientController {
         iRules = rulesService.getRulesServiceImplPort();
     }
 
-    public void requestBanks(int creditScore, double amount, int months) {
+    public String requestBanks(int creditScore, double amount, int months) {
         System.out.println(iRules.getBanks(creditScore, amount, months));
+        return iRules.getBanks(creditScore, amount, months);
     }
 }

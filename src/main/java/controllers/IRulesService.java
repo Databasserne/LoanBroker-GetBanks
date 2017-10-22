@@ -6,14 +6,14 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-@WebService(name = "RulesService", targetNamespace = "http://webservices.loanbroker.databasserne.com/")
+@WebService(name = "IRules", targetNamespace = "http://webservices.loanbroker.databasserne.com/")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface IRulesService {
 
     @WebMethod
     @WebResult(partName = "return")
     public String getBanks(
-            @WebParam(name = "creditScore", partName = "creditScore") int creditScore,
-            @WebParam(name = "amount", partName = "amount") double amount,
-            @WebParam(name = "months", partName = "months") int months);
+            @WebParam(name = "arg0") int creditScore,
+            @WebParam(name = "arg1") double amount,
+            @WebParam(name = "arg2") int months);
 }

@@ -1,7 +1,6 @@
 
 package com.databasserne.loanbroker.webservices;
 
-import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -31,14 +30,14 @@ public interface RulesService {
      * @param arg1
      * @param arg0
      * @return
-     *     returns java.util.List<java.lang.String>
+     *     returns java.lang.String
      */
     @WebMethod
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getBanks", targetNamespace = "http://webservices.loanbroker.databasserne.com/", className = "com.databasserne.loanbroker.webservices.GetBanks")
     @ResponseWrapper(localName = "getBanksResponse", targetNamespace = "http://webservices.loanbroker.databasserne.com/", className = "com.databasserne.loanbroker.webservices.GetBanksResponse")
     @Action(input = "http://webservices.loanbroker.databasserne.com/RulesService/getBanksRequest", output = "http://webservices.loanbroker.databasserne.com/RulesService/getBanksResponse")
-    public List<String> getBanks(
+    public String getBanks(
         @WebParam(name = "arg0", targetNamespace = "")
         int arg0,
         @WebParam(name = "arg1", targetNamespace = "")
